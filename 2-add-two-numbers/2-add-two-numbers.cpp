@@ -35,14 +35,23 @@ void insertAtTail(ListNode* &head, ListNode* &tail, int d) {
 }
     
 ListNode* add(ListNode* first, ListNode* second){
-    int carry = 0;
+     int carry = 0;
     
     ListNode* ansHead = NULL;
     ListNode* ansTail = NULL;
     
-    while(first != NULL && second != NULL){
+    while(first != NULL || second != NULL || carry != 0){
         
-        int sum = carry + first -> val + second -> val;
+        int val1 = 0;
+        if(first != NULL)
+            val1 = first -> val;
+        
+       int val2 = 0;
+       if(second != NULL)
+            val2 = second -> val;
+        
+        
+        int sum = carry + val1 + val2;
         int digit = sum%10;
         
         //create Node and add in answer LL
@@ -50,34 +59,13 @@ ListNode* add(ListNode* first, ListNode* second){
         
         carry = sum/10;
         
-        first = first -> next;
-        second = second -> next;
+        if(first != NULL)
+            first = first -> next;
+        
+        if(second != NULL)
+            second = second -> next;
         
     }
-    
-    while(first != NULL){
-        int sum = carry + first -> val;
-        int digit = sum%10;
-        insertAtTail(ansHead, ansTail, digit);
-        carry = sum/10;
-        first = first -> next;
-    }
-        
-    while(second != NULL){
-        int sum = carry  + second -> val;
-        int digit = sum%10;
-        insertAtTail(ansHead, ansTail, digit);
-        carry = sum/10;
-        second = second -> next;
-    }
-    
-    while(carry != 0){
-        int sum = carry;
-        int digit = sum%10;
-        insertAtTail(ansHead, ansTail, digit);
-        carry = sum/10;
-    }
-    
     return ansHead;
 }
     
