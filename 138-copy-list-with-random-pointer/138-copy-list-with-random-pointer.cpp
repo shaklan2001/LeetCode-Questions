@@ -26,26 +26,55 @@ public:
             temp = temp -> next;
         }
         
-        //step2 -> create a map
-        unordered_map<Node* , Node*> oldToNew;
-        
+        //step2 -> cloneNode add in between riginal Node
         Node* originalNode = head;
-        Node* cloneNode = cloneHead;
+        Node * cloneNode = cloneHead;
+        
         while(originalNode != NULL && cloneNode != NULL){
-            oldToNew[originalNode] = cloneNode;
-            originalNode = originalNode -> next;
-            cloneNode = cloneNode -> next;
+            Node* next = originalNode -> next;
+            originalNode -> next = cloneNode;
+            originalNode = next;
+            
+            next = cloneNode -> next;
+            cloneNode -> next = originalNode;
+            cloneNode = next;
         }
         
+        // step3 -> copy random pointer
+        temp = head;
+        
+        while( temp != NULL){
+            if( temp -> next != NULL){
+                
+                temp -> next -> random = temp -> random ? temp -> random -> next : temp -> random;
+                
+                // if(temp -> random != NULL){
+                //     temp -> next -> random = temp -> random -> next;
+                // }
+                // else{
+                //     temp -> next = temp -> random;
+                // } 
+            }
+            
+            temp = temp -> next -> next;
+        }
+        
+        //step4 -> revert changes done in step2
         originalNode = head;
         cloneNode = cloneHead;
         
-        while(originalNode != NULL){
-            cloneNode -> random = oldToNew[originalNode -> random];
+         while(originalNode != NULL && cloneNode != NULL){
+            originalNode -> next = cloneNode -> next;
             originalNode = originalNode -> next;
-            cloneNode = cloneNode -> next;
+            
+             if(originalNode != NULL){
+                 cloneNode -> next = originalNode -> next;
+             }
+             cloneNode = cloneNode -> next;
         }
         
+        //step5 -> return ans
         return cloneHead;
+        
     }
 };
