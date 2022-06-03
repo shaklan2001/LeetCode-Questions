@@ -47,7 +47,6 @@ class Solution
         int candidate = s.top();
         
         // step3: single elemnet in stack is potential celebrity
-        bool rowCheck = false;
         int zeroCount = 0;
         for(int i=0; i<n; i++){
             if(M[candidate][i] == 0){
@@ -56,12 +55,10 @@ class Solution
         }
         
         //check all are zeroes or not 
-        if(zeroCount == n){
-            rowCheck = true;
-        }
+        if(zeroCount != n)
+            return -1;
         
         //check colum
-        bool colCheck = false;
         int oneCount = 0;
         for(int i=0; i<n; i++){
             if(M[i][candidate] == 1){
@@ -69,18 +66,11 @@ class Solution
             }
         }
         
-        if(oneCount == n-1){
-            colCheck = true;
-        }
-        
-        if(rowCheck == true && colCheck == true){
-            return candidate;
-        }
-        else{
+        if(oneCount != n-1)
             return -1;
-        }
-    
         
+        return candidate;
+    
     }
 };
 
